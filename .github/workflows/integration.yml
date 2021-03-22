@@ -9,7 +9,7 @@ jobs:
         id: selftest
 
         # Put your action repo here
-        uses: stephend017/snake_charmer@master
+        uses: stephend017/snake_charmer@main
 
       - name: Check outputs
         run: |
