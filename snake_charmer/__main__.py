@@ -1,3 +1,8 @@
+import os
+from snake_charmer.api import API
+from sd_utils.github_actions.action import GithubAction
+
+
 def main():
     """
     Basic algorithm
@@ -20,8 +25,30 @@ def main():
         - creates a new tag release with that defined
           in setup.py
         - pushes build to PYPI
-
     """
+    action = GithubAction(
+        "stephend017", "snake_charmer", os.environ, {"repository"}
+    )
+
+    event_payload = action.inputs["event_payload"]
+
+    if "pull_request" in event_payload:
+        if event_payload["action"] == "opened":
+            API.on_pull_request_opened(event_payload["pull_request"])
+
+        if event_payload["action"] == "labeled":
+            API.on_pull_request_labeled(
+                event_payload["pull_request"], event_payload["label"]
+            )
+
+        if event_payload["action"] == "unlabeled":
+            API.on_pull_request_unlabeled(
+                event_payload["pull_request"], event_payload["label"]
+            )
+
+        if event_payload["action"] == "closed":
+            if event_payload["pull_request"]["merged"]:
+                API.on_pull_request_merged(event_payload["pull_request"])
 
 
 if __name__ == "__main__":

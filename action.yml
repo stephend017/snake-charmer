@@ -2,11 +2,11 @@ name: "snake-charmer"
 description: "Github action for automatically releasing a python package"
 author: "Stephen Davis"
 inputs:
-  event-payload:
+  event_payload:
     description: "The event payload provided by the github action"
     default: ""
     required: True
-  github-token:
+  github_token:
     description: "The github token provided by github actions ${{ secrets.GITHUB_TOKEN }}"
     default: ""
     required: True

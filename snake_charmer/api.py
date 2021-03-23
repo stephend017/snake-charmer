@@ -1,4 +1,5 @@
 from github.PullRequest import PullRequest
+from github.Label import Label
 
 
 class API:
@@ -19,7 +20,7 @@ class API:
         """
 
     @staticmethod
-    def on_pull_request_labeled(pull_request: PullRequest):
+    def on_pull_request_labeled(pull_request: PullRequest, label: Label):
         """
         Function that runs when a pull request has a label
         added
@@ -27,10 +28,11 @@ class API:
         Args:
             pull_request (PullRequest): Full PR object from
                 github API
+            label (Label): the label that was added to the pull request
         """
 
     @staticmethod
-    def on_pull_request_unlabeled(pull_request: PullRequest):
+    def on_pull_request_unlabeled(pull_request: PullRequest, label: Label):
         """
         Function that runs when a pull request has a label
         removed
@@ -38,6 +40,7 @@ class API:
         Args:
             pull_request (PullRequest): Full PR object from
                 github API
+            label (Label): the label that was removed to the pull request
         """
 
     @staticmethod
