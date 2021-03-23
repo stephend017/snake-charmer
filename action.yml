@@ -1,13 +1,15 @@
-name: "Python Github Action Template"
-description: "Get started with Python Github actions"
+name: "snake-charmer"
+description: "Github action for automatically releasing a python package"
 author: "Stephen Davis"
 inputs:
-  myInput:
-    description: "Input to use"
-    default: "world"
-outputs:
-  myOutput:
-    description: "Output from the action"
+  event-payload:
+    description: "The event payload provided by the github action"
+    default: ""
+    required: True
+  github-token:
+    description: "The github token provided by github actions ${{ secrets.GITHUB_TOKEN }}"
+    default: ""
+    required: True
 runs:
   using: "docker"
   image: "Dockerfile"
