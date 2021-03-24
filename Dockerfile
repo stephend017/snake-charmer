@@ -24,18 +24,18 @@
 FROM python:3.8
 
 # set the working directory in the container
-WORKDIR /code
+WORKDIR /
 
 # copy the dependencies file to the working directory
-COPY requirements.txt .
+COPY ./requirements.txt /requirements.txt
 
 # install dependencies
 RUN pip install -r requirements.txt
 
 # copy the content of the local src directory to the working directory
-COPY . .
+COPY . /
 
-RUN pip install .
+RUN python /setup.py install
 
 # command to run on container start
-CMD [ "python", "./snake_charmer/__main__.py" ]
+CMD [ "python", "/snake_charmer/__main__.py" ]

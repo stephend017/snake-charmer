@@ -81,4 +81,10 @@ class API:
         """
         # generate changelog
         # create release
-        github_api.create_release("main")
+        defined_labels = ["major-release", "minor-release", "revision-release"]
+        labels = pull_request["labels"]
+
+        for label in labels:
+            if label["name"] in defined_labels:
+                github_api.create_release("main")
+                return
