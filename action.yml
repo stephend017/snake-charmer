@@ -7,7 +7,7 @@ inputs:
     default: ""
     required: True
   github_token:
-    description: "The github token provided by github actions ${{ secrets.GITHUB_TOKEN }}"
+    description: "The github token provided by github actions secrets.GITHUB_TOKEN"
     default: ""
     required: True
 runs:
