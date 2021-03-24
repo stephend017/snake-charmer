@@ -12,5 +12,5 @@ jobs:
         # we can run the latest build on itself,
         - uses: stephend017/snake_charmer@main
           with:
-            github_token: ${{ GITHUB_TOKEN }}
+            github_token: ${{ secrets.GITHUB_TOKEN }}
             github_env: ${{ github.event }}

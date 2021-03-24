@@ -42,7 +42,7 @@ class GithubAPI:
         """
         repo = self._github.get_repo(f"{self._owner}/{self._repo}")
         response = repo.get_contents("setup.py", ref=pr_ref)
-        self._setup_py = str(response.decoded_content.decode, "utf-8")
+        self._setup_py = str(response.decoded_content, "utf-8")
 
     def update_setup_py_file(
         self, version_type: VersionType, increment: bool = True
