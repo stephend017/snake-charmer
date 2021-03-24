@@ -28,12 +28,20 @@ class GithubAPI:
         interface with this action
         """
         repo: Repository = self._github.get_repo(f"{self._owner}/{self._repo}")
+        labels = repo.get_labels()
         with open("./assets/tags.json", "r") as fp:
             data = json.load(fp)
             for element in data:
-                repo.create_label(
-                    element["name"], element["color"], element["description"]
-                )
+                is_defined = False
+                for label in labels:
+                    if label.name == element["name"]:
+                        is_defined = True
+                if not is_defined:
+                    repo.create_label(
+                        element["name"],
+                        element["color"],
+                        element["description"],
+                    )
 
     def load_setup_py_file(self, pr_ref: str):
         """
