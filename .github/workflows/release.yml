@@ -13,4 +13,4 @@ jobs:
         - uses: stephend017/snake_charmer@main
           with:
             github_token: ${{ secrets.GITHUB_TOKEN }}
-            github_env: ${{ github.event }}
+            github_env: github.event
