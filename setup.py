@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 with open("README.md", "r") as file:
@@ -10,7 +10,7 @@ setup(
     version="0.0.1",
     description="A python module",
     long_description=readme,
-    author="myname",
-    author_email="myemail",
-    packages=["snake_charmer"],
+    author="Stephen Davis",
+    author_email="stephenedavis17@gmail.com",
+    packages=find_packages(),
 )

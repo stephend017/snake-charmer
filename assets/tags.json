@@ -1,0 +1,27 @@
+[
+    {
+        "name": "major-release",
+        "description": "marks this pull request as creating a major release of this project",
+        "color": "44BBA4"
+    },
+    {
+        "name":"minor-release",
+        "description":"marks this pull request as creating a minor release of this project",
+        "color": "3F88C5"
+    },
+    {
+        "name": "revision-release",
+        "description": "marks this pull request as creating a revision release of this project",
+        "color": "E94F37"
+    },
+    {
+        "name": "beta",
+        "description": "marks this pull request as creating a beta release of this project",
+        "color": "393E41"
+    },
+    {
+        "name": "alpha",
+        "description": "marks this pull request as creating a alpha release of this project",
+        "color": "F6F7EB"
+    }
+]
