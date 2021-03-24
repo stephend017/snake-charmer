@@ -7,7 +7,7 @@ with open("README.md", "r") as file:
 
 setup(
     name="snake_charmer",
-    version="0.0.3",
+    version="0.1.3",
     description="A python module",
     long_description=readme,
     author="Stephen Davis",
