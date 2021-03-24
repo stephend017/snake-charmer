@@ -72,8 +72,11 @@ class GithubAPI:
 
         if version_type == VersionType.MAJOR:
             major += value
+            minor = 0
+            revision = 0
         if version_type == VersionType.MINOR:
             minor += value
+            revision = 0
         if version_type == VersionType.REVISION:
             revision += value
 
