@@ -102,7 +102,7 @@ class GithubAPI:
         version = f"v{self._get_setup_py_version()[1:-1]}"
         repo = self._github.get_repo(f"{self._owner}/{self._repo}")
         # I think this is latest commit but not really sure
-        sha = self._get_latest_commit_sha()
+        sha = self._get_latest_commit_sha(ref)
         repo.create_git_tag_and_release(
             version,
             "[INSERT CHANGELOG HERE]",
