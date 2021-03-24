@@ -1,6 +1,8 @@
 import os
+from snake_charmer.github_api import GithubAPI
 from snake_charmer.api import API
 from sd_utils.github_actions.action import GithubAction
+import json
 
 
 def main():
@@ -27,28 +29,39 @@ def main():
         - pushes build to PYPI
     """
     action = GithubAction(
-        "stephend017", "snake_charmer", os.environ, {"repository"}
+        "stephend017",
+        "snake_charmer",
+        os.environ,
+        os.environ["INPUT_GITHUB_TOKEN"],
+        {"repository"},
     )
 
-    event_payload = action.inputs["event_payload"]
+    event_payload = json.loads(action.inputs["event_payload"])
+
+    # assert False, event_payload
+    g = GithubAPI(
+        action.builtins["repository"].split("/")[0],
+        action.builtins["repository"].split("/")[1],
+        action.inputs["github_token"],
+    )
 
     if "pull_request" in event_payload:
         if event_payload["action"] == "opened":
-            API.on_pull_request_opened(event_payload["pull_request"])
+            API.on_pull_request_opened(g, event_payload["pull_request"])
 
         if event_payload["action"] == "labeled":
             API.on_pull_request_labeled(
-                event_payload["pull_request"], event_payload["label"]
+                g, event_payload["pull_request"], event_payload["label"]
             )
 
         if event_payload["action"] == "unlabeled":
             API.on_pull_request_unlabeled(
-                event_payload["pull_request"], event_payload["label"]
+                g, event_payload["pull_request"], event_payload["label"]
             )
 
         if event_payload["action"] == "closed":
             if event_payload["pull_request"]["merged"]:
-                API.on_pull_request_merged(event_payload["pull_request"])
+                API.on_pull_request_merged(g, event_payload["pull_request"])
 
 
 if __name__ == "__main__":

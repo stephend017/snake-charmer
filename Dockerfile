@@ -33,8 +33,9 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 # copy the content of the local src directory to the working directory
-COPY snake_charmer/ ./snake_charmer/
-COPY assets/ ./assets/
+COPY . .
+
+RUN pip install .
 
 # command to run on container start
 CMD [ "python", "./snake_charmer/__main__.py" ]
