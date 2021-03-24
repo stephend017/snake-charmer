@@ -27,7 +27,7 @@ class GithubAPI:
         function to setup labels for the repo to correctly
         interface with this action
         """
-        repo: Repository = self._github.get_repo(f"{self._owner}/{self._repo}")
+        repo: Repository = self._get_repo()
         labels = repo.get_labels()
         with open("/assets/tags.json", "r") as fp:
             data = json.load(fp)
@@ -48,7 +48,7 @@ class GithubAPI:
         function to load the setup.py file from the calling
         repo
         """
-        repo = self._github.get_repo(f"{self._owner}/{self._repo}")
+        repo = self._get_repo()
         response = repo.get_contents("setup.py", ref=pr_ref)
         self._setup_py = str(response.decoded_content, "utf-8")
 
@@ -83,7 +83,7 @@ class GithubAPI:
         function which force pushes the updated setup.py file
         to a given branch
         """
-        repo: Repository = self._github.get_repo(f"{self._owner}/{self._repo}")
+        repo: Repository = self._get_repo()
         pr: PullRequest = repo.get_pull(number)
         sha = repo.get_contents("setup.py", pr.head.ref).sha
         repo.update_file(
@@ -100,14 +100,15 @@ class GithubAPI:
         """
         self.load_setup_py_file(ref)
         version = f"v{self._get_setup_py_version()[1:-1]}"
-        repo = self._github.get_repo(f"{self._owner}/{self._repo}")
+        repo = self._get_repo()
         # I think this is latest commit but not really sure
         sha = self._get_latest_commit_sha(ref)
+        changelog = self._get_changelog()
         repo.create_git_tag_and_release(
             version,
-            "[INSERT CHANGELOG HERE]",
+            "\n".join(f"* {item}" for item in changelog),
             version,
-            "[INSERT CHANGELOG HERE]",
+            "\n".join(f"* {item}" for item in changelog),
             sha,
             "commit",
         )
@@ -115,15 +116,35 @@ class GithubAPI:
     def _get_latest_commit_sha(self, ref: str):
         """
         """
-        # I think this is latest commit but not really sure
-        return (
-            self._github.get_repo(f"{self._owner}/{self._repo}")
-            .get_commits(ref)
-            .get_page(0)[0]
-            .sha
-        )
+        return self._get_repo().get_commits(ref).get_page(0)[0].sha
+
+    def _get_changelog(self):
+        """
+        """
+        repo = self._get_repo()
+        commits = repo.get_commits()
+        tags = repo.get_tags()
+        stop_commit_sha = ""
+        if len(tags) > 0:
+            stop_commit_sha = tags[0].commit.sha
+
+        changelog = []
+        index = 0
+        while commits[index].sha != stop_commit_sha:
+            changelog.append(commits[index].commit.message)
+
+            index += 1
+            if index == len(commits):
+                break
+
+        return changelog
 
     def _get_setup_py_version(self):
         """
         """
         return re.search(r'"\d\.\d\.\d"', self._setup_py).group()
+
+    def _get_repo(self):
+        """
+        """
+        return self._github.get_repo(f"{self._owner}/{self._repo}")
