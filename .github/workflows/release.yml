@@ -1,0 +1,16 @@
+name: Release
+
+on:
+  pull_request:
+    branches: [ main ]
+    types: [opened, closed, labeled, unlabeled]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+        # we can run the latest build on itself,
+        - uses: stephend017/snake_charmer@main
+          with:
+            github_token: ${{ secrets.GITHUB_TOKEN }}
+            github_env: ${{ github.event }}
