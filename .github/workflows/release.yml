@@ -3,7 +3,7 @@ name: Release
 on:
   pull_request:
     branches: [ main ]
-    types: [opened, closed, labeled, unlabeled]
+    types: [opened, closed, labeled, unlabeled, reopened]
 
 jobs:
   build:
