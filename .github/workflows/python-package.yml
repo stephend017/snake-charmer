@@ -23,5 +23,5 @@ jobs:
     - name: Tox
       run: |
         pip install tox
-        export GH_PAT = ${{ secrets.GH_PAT }}
+        export GH_PAT ${{ secrets.GH_PAT }}
         tox
