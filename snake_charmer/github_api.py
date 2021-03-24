@@ -29,7 +29,7 @@ class GithubAPI:
         """
         repo: Repository = self._github.get_repo(f"{self._owner}/{self._repo}")
         labels = repo.get_labels()
-        with open("./assets/tags.json", "r") as fp:
+        with open("/assets/tags.json", "r") as fp:
             data = json.load(fp)
             for element in data:
                 is_defined = False
