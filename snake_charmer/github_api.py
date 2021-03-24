@@ -1,7 +1,9 @@
 import json
 import re
+from github.PaginatedList import PaginatedList
 
 from github.PullRequest import PullRequest
+from github.Tag import Tag
 from snake_charmer.models import VersionType
 from github import Github
 from github.Repository import Repository
@@ -123,9 +125,9 @@ class GithubAPI:
         """
         repo = self._get_repo()
         commits = repo.get_commits()
-        tags = repo.get_tags()
+        tags: PaginatedList[Tag] = repo.get_tags()
         stop_commit_sha = ""
-        if len(tags) > 0:
+        if tags.totalCount > 0:
             stop_commit_sha = tags[0].commit.sha
 
         changelog = []
