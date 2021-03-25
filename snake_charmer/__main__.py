@@ -1,8 +1,11 @@
 import os
+
+from github.Commit import Commit
 from snake_charmer.github_api import GithubAPI
 from snake_charmer.api import API
 from sd_utils.github_actions.action import GithubAction
 import json
+import re
 
 
 def main():
