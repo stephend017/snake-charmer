@@ -132,6 +132,11 @@ class GithubAPI:
     ):
         """
         Creates a release for the given branch
+
+        Args:
+            ref (str): the branch to create a release for
+            is_beta (bool): True if the release is beta, False otherwise
+            is_alpha (bool): True if the release is alpha, False otherwise
         """
         self.load_setup_py_file(ref)
         version = f"v{self._get_setup_py_version()[1:-1]}"
