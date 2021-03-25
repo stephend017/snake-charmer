@@ -29,7 +29,7 @@ class GithubAPI:
         function to setup labels for the repo to correctly
         interface with this action
         """
-        repo: Repository = self._get_repo()
+        repo: Repository = self.get_repo()
         labels = repo.get_labels()
         with open("/assets/tags.json", "r") as fp:
             data = json.load(fp)
@@ -50,7 +50,7 @@ class GithubAPI:
         function to load the setup.py file from the calling
         repo
         """
-        repo = self._get_repo()
+        repo = self.get_repo()
         response = repo.get_contents("setup.py", ref=pr_ref)
         self._setup_py = str(response.decoded_content, "utf-8")
 
@@ -74,10 +74,10 @@ class GithubAPI:
             major += value
             minor = 0
             revision = 0
-        if version_type == VersionType.MINOR:
+        elif version_type == VersionType.MINOR:
             minor += value
             revision = 0
-        if version_type == VersionType.REVISION:
+        elif version_type == VersionType.REVISION:
             revision += value
 
         new_version = f'"{major}.{minor}.{revision}"'
@@ -88,7 +88,7 @@ class GithubAPI:
         function which force pushes the updated setup.py file
         to a given branch
         """
-        repo: Repository = self._get_repo()
+        repo: Repository = self.get_repo()
         pr: PullRequest = repo.get_pull(number)
         sha = repo.get_contents("setup.py", pr.head.ref).sha
         repo.update_file(
@@ -105,8 +105,7 @@ class GithubAPI:
         """
         self.load_setup_py_file(ref)
         version = f"v{self._get_setup_py_version()[1:-1]}"
-        repo = self._get_repo()
-        # I think this is latest commit but not really sure
+        repo = self.get_repo()
         sha = self._get_latest_commit_sha(ref)
         changelog = self._get_changelog()
         repo.create_git_tag_and_release(
@@ -118,15 +117,20 @@ class GithubAPI:
             "commit",
         )
 
+    def get_repo(self):
+        """
+        """
+        return self._github.get_repo(f"{self._owner}/{self._repo}")
+
     def _get_latest_commit_sha(self, ref: str):
         """
         """
-        return self._get_repo().get_commits(ref).get_page(0)[0].sha
+        return self.get_repo().get_commits(ref).get_page(0)[0].sha
 
     def _get_changelog(self):
         """
         """
-        repo = self._get_repo()
+        repo = self.get_repo()
         commits = repo.get_commits()
         tags: PaginatedList[Tag] = repo.get_tags()
         stop_commit_sha = ""
@@ -148,8 +152,3 @@ class GithubAPI:
         """
         """
         return re.search(r'"\d\.\d\.\d"', self._setup_py).group()
-
-    def _get_repo(self):
-        """
-        """
-        return self._github.get_repo(f"{self._owner}/{self._repo}")
