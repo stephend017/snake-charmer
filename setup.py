@@ -10,7 +10,7 @@ with open("requirements.txt", "r") as f:
 
 setup(
     name="snake_charmer",
-    version="0.11.0",
+    version="0.11.1",
     description="A python package that enables a github repo to release a python project from a pull request",
     long_description=readme,
     long_description_content_type="text/markdown",
