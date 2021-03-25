@@ -173,4 +173,4 @@ class GithubAPI:
     def _get_setup_py_version(self):
         """
         """
-        return re.search(r'"\d\.\d\.\d"', self._setup_py).group()
+        return re.search(r'"\d+\.\d+\.\d+"', self._setup_py).group()

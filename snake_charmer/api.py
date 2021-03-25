@@ -84,20 +84,17 @@ class API:
                 while index < commits.totalCount:
                     commit: Commit = commits[index]
 
-                    match = re.search(
-                        r"Updated version to \d\.\d\.\d",
+                    matches = re.findall(
+                        r"Updated version to \d+\.\d+\.\d+",
                         commit.commit.message,
                     )
-                    if match:
-                        commit_message = match.group()
+                    if len(matches) > 0:
+                        commit_message = matches[len(matches - 1)]
                         version = commit_message[19:]
                         if version == github_api._get_setup_py_version()[1:-1]:
                             # don't look at the last version we added
                             index += 1
                             continue
-                        assert (
-                            False
-                        ), f"to {version} from {github_api._get_setup_py_version()[1:-1]}"
                         github_api._setup_py.replace(
                             github_api._get_setup_py_version()[1:-1], version
                         )
