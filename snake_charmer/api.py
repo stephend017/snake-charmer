@@ -80,6 +80,10 @@ class API:
                     if match:
                         commit_message = match.group()
                         version = commit_message[19:]
+                        if version == github_api._get_setup_py_version()[1:-1]:
+                            # don't look at the last version we added
+                            index += 1
+                            continue
                         github_api._setup_py.replace(
                             github_api._get_setup_py_version()[1:-1], version
                         )
