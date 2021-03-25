@@ -139,7 +139,7 @@ class GithubAPI:
             changelog.append(commits[index].commit.message)
 
             index += 1
-            if index == len(commits):
+            if index == commits.totalCount:
                 break
 
         return changelog
