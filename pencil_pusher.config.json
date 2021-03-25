@@ -1,0 +1,24 @@
+{
+  "python": {
+    "module": "snake_charmer"
+  },
+  "sources": [
+    "snake_charmer/github_api.py",
+    "snake_charmer/api.py",
+    "snake_charmer/models.py"
+  ],
+  "titles": [
+    {
+      "title": "Github API",
+      "source": "snake_charmer/github_api.py"
+    },
+    {
+      "title": "Action Hooks",
+      "source": "snake_charmer/api.py"
+    },
+    {
+      "title": "Models",
+      "source": "snake_charmer/models.py"
+    }
+  ]
+}
