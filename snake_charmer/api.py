@@ -45,8 +45,8 @@ class API:
         """
         labels = ["major-release", "minor-release", "revision-release"]
         labels.remove(label["name"])
-        for label in pull_request["labels"]:
-            if label in labels:
+        for l in pull_request["labels"]:
+            if l in labels:
                 # A release label that is not the one added
                 # already exists. remove this label, update
                 # setup.py
