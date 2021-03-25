@@ -132,7 +132,19 @@ class API:
         defined_labels = ["major-release", "minor-release", "revision-release"]
         labels = pull_request["labels"]
 
+        should_release = False
+        is_beta = False
+        is_alpha = False
+
         for label in labels:
             if label["name"] in defined_labels:
-                github_api.create_release("main")
-                return
+                should_release = True
+            if label["name"] == "beta":
+                is_beta = True
+            if label["name"] == "alpha":
+                is_alpha = True
+
+        if should_release:
+            github_api.create_release(
+                "main", is_beta=is_beta, is_alpha=is_alpha
+            )
