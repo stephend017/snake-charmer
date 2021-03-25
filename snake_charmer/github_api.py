@@ -108,7 +108,10 @@ class GithubAPI:
     def push_setup_py_file(self, number: int):
         """
         function which force pushes the updated setup.py file
-        to a given branch
+        to a given pull request
+
+        Args:
+            number (int): the number of the pull request being pushed to
         """
         repo: Repository = self.get_repo()
         pr: PullRequest = repo.get_pull(number)
