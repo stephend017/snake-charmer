@@ -89,7 +89,7 @@ class API:
                         commit.commit.message,
                     )
                     if len(matches) > 0:
-                        commit_message = matches[len(matches - 1)]
+                        commit_message = matches[len(matches) - 1]
                         version = commit_message[19:]
                         if version == github_api._get_setup_py_version()[1:-1]:
                             # don't look at the last version we added
