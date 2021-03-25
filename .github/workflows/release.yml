@@ -10,7 +10,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
         # we can run the latest build on itself,
-        - uses: stephend017/snake_charmer@main
+        - uses: stephend017/snake-charmer@main
           with:
             github_token: ${{ secrets.GH_PAT }}
             event_payload: ${{ toJSON(github.event) }}
