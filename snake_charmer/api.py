@@ -26,7 +26,13 @@ class API:
             pull_request (PullRequest): Full PR object from
                 github API
         """
-        github_api.setup_labels()
+        did_add = github_api.setup_labels()
+        if did_add:
+            repo = github_api.get_repo()
+            pr = repo.get_pull(pull_request["number"])
+            pr.create_issue_comment(
+                f"**`snake-charmer`** added new labels to this repository"
+            )
 
     @staticmethod
     def on_pull_request_labeled(
