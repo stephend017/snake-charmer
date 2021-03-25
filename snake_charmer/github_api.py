@@ -23,6 +23,7 @@ class GithubAPI:
         self._github = Github(token)
         self._setup_py = ""
         self._test_sha = ""
+        self._old_version = ""
 
     def setup_labels(self) -> bool:
         """
@@ -87,6 +88,7 @@ class GithubAPI:
             revision += value
 
         new_version = f'"{major}.{minor}.{revision}"'
+        self._old_version = current_version[1:-1]
         self._setup_py = self._setup_py.replace(current_version, new_version)
 
     def push_setup_py_file(self, number: int):
@@ -105,7 +107,7 @@ class GithubAPI:
             pr.head.ref,
         )
         pr.create_issue_comment(
-            f"**`snake-charmer`** set project version to {self._get_setup_py_version()[1:-1]}. If you do not want to release a new version with this PR remove the release label from this PR"
+            f"**`snake-charmer`** set project version from {self._old_version} to {self._get_setup_py_version()[1:-1]}. If you do not want to release a new version with this PR remove the release label from this PR"
         )
 
     def create_release(
