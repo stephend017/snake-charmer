@@ -112,6 +112,15 @@ class API:
                 github API
             label (Label): the label that was removed to the pull request
         """
+        # no op if another label exists
+        labels = ["major-release", "minor-release", "revision-release"]
+        labels.remove(label["name"])
+        for l in pull_request["labels"]:
+            if l["name"] in labels:
+                # no need to modify the version since label
+                # metadata was updated when new version was added
+                return
+
         github_api.load_setup_py_file(pull_request["head"]["ref"])
         github_api.update_setup_py_file(
             VersionType.from_label(label["name"]), increment=False
