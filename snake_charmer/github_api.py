@@ -66,6 +66,9 @@ class GithubAPI:
     ):
         """
         """
+        if version_type == VersionType.NONE:
+            return
+
         current_version = self._get_setup_py_version()
         value = 1 if increment else -1
 

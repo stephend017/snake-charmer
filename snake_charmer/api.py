@@ -52,8 +52,20 @@ class API:
         github_api.load_setup_py_file(pull_request["head"]["ref"])
         labels = ["major-release", "minor-release", "revision-release"]
         labels.remove(label["name"])
+        repo = github_api.get_repo()
+
         for l in pull_request["labels"]:
-            if l["name"] in labels:
+            if l["name"] == "beta" and label["name"] == "alpha":
+                repo.get_pull(pull_request["number"]).remove_from_labels(
+                    l["name"]
+                )
+
+            elif l["name"] == "alpha" and label["name"] == "beta":
+                repo.get_pull(pull_request["number"]).remove_from_labels(
+                    l["name"]
+                )
+
+            elif l["name"] in labels:
                 # A release label that is not the one added
                 # already exists. remove this label, update
                 # setup.py
@@ -67,7 +79,6 @@ class API:
                 # version was bumped from (since it
                 # was committed)
 
-                repo = github_api.get_repo()
                 commits = repo.get_commits()
                 index = 0
                 while index < commits.totalCount:
