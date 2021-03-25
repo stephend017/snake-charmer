@@ -49,6 +49,7 @@ class API:
                 github API
             label (Label): the label that was added to the pull request
         """
+        github_api.load_setup_py_file(pull_request["head"]["ref"])
         labels = ["major-release", "minor-release", "revision-release"]
         labels.remove(label["name"])
         for l in pull_request["labels"]:
@@ -87,7 +88,6 @@ class API:
 
                 repo.get_pull(pull_request["number"]).remove_from_labels(label)
 
-        github_api.load_setup_py_file(pull_request["head"]["ref"])
         github_api.update_setup_py_file(VersionType.from_label(label["name"]))
         github_api.push_setup_py_file(pull_request["number"])
 
