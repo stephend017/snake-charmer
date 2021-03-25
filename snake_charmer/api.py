@@ -80,6 +80,10 @@ class API:
                     if match:
                         commit_message = match.group()
                         version = commit_message[19:]
+                        if version == github_api._get_setup_py_version()[1:-1]:
+                            # don't look at the last version we added
+                            index += 1
+                            continue
                         github_api._setup_py.replace(
                             github_api._get_setup_py_version()[1:-1], version
                         )
@@ -132,7 +136,19 @@ class API:
         defined_labels = ["major-release", "minor-release", "revision-release"]
         labels = pull_request["labels"]
 
+        should_release = False
+        is_beta = False
+        is_alpha = False
+
         for label in labels:
             if label["name"] in defined_labels:
-                github_api.create_release("main")
-                return
+                should_release = True
+            if label["name"] == "beta":
+                is_beta = True
+            if label["name"] == "alpha":
+                is_alpha = True
+
+        if should_release:
+            github_api.create_release(
+                "main", is_beta=is_beta, is_alpha=is_alpha
+            )

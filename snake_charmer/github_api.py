@@ -108,7 +108,9 @@ class GithubAPI:
             f"**`snake-charmer`** set project version to {self._get_setup_py_version()[1:-1]}. If you do not want to release a new version with this PR remove the release label from this PR"
         )
 
-    def create_release(self, ref: str):
+    def create_release(
+        self, ref: str, is_beta: bool = False, is_alpha: bool = False
+    ):
         """
         Creates a release for the given branch
         """
@@ -117,10 +119,16 @@ class GithubAPI:
         repo = self.get_repo()
         sha = self._get_latest_commit_sha(ref)
         changelog = self._get_changelog()
+        suffix = ""
+        if is_beta:
+            suffix = "-beta"
+        elif is_alpha:
+            suffix = "-alpha"
+
         repo.create_git_tag_and_release(
-            version,
+            f"{version}{suffix}",
             "\n".join(f"* {item}" for item in changelog),
-            version,
+            f"{version}{suffix}",
             "\n".join(f"* {item}" for item in changelog),
             sha,
             "commit",
