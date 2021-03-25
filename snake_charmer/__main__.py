@@ -33,7 +33,7 @@ def main():
     """
     action = GithubAction(
         "stephend017",
-        "snake_charmer",
+        "snake-charmer",
         os.environ,
         os.environ["INPUT_GITHUB_TOKEN"],
         {"repository"},
