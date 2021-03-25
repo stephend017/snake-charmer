@@ -56,6 +56,10 @@ class GithubAPI:
         """
         function to load the setup.py file from the calling
         repo
+
+        Args:
+            pr_ref (str): The ref of the branch to load the
+                setup.py file from
         """
         repo = self.get_repo()
         response = repo.get_contents("setup.py", ref=pr_ref)
