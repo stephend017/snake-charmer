@@ -69,6 +69,13 @@ class GithubAPI:
         self, version_type: VersionType, increment: bool = True
     ):
         """
+        Updates the setup.py file currently loaded
+
+        Args:
+            version_type (VersionType): which type of version to
+                update. (major, minor, revision)
+            increment (bool): increases the version if set to
+                true, decreases otherwise
         """
         if version_type == VersionType.NONE:
             return
