@@ -86,7 +86,9 @@ class API:
                         break
                     index += 1
 
-                repo.get_pull(pull_request["number"]).remove_from_labels(label)
+                repo.get_pull(pull_request["number"]).remove_from_labels(
+                    l["name"]
+                )
 
         github_api.update_setup_py_file(VersionType.from_label(label["name"]))
         github_api.push_setup_py_file(pull_request["number"])
