@@ -95,6 +95,9 @@ class API:
                             # don't look at the last version we added
                             index += 1
                             continue
+                        assert (
+                            False
+                        ), f"to {version} from {github_api._get_setup_py_version()[1:-1]}"
                         github_api._setup_py.replace(
                             github_api._get_setup_py_version()[1:-1], version
                         )
