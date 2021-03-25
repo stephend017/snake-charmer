@@ -85,7 +85,7 @@ class API:
                     commit: Commit = commits[index]
 
                     match = re.search(
-                        r"Updated version to \d\.\d\.\d",
+                        r"Updated version to \d+\.\d+\.\d+",
                         commit.commit.message,
                     )
                     if match:
