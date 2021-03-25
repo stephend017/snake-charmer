@@ -1,5 +1,5 @@
 import re
-from github import Commit
+from github.Commit import Commit
 from snake_charmer.models import VersionType
 from snake_charmer.github_api import GithubAPI
 from github.PullRequest import PullRequest
@@ -95,6 +95,9 @@ class API:
                             # don't look at the last version we added
                             index += 1
                             continue
+                        assert (
+                            False
+                        ), f"commit [{commit.sha}]: {version}, setup.py: {github_api._get_setup_py_version()[1:-1]}"
                         github_api._setup_py.replace(
                             github_api._get_setup_py_version()[1:-1], version
                         )
