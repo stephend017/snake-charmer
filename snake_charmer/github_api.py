@@ -98,6 +98,9 @@ class GithubAPI:
             sha,
             pr.head.ref,
         )
+        pr.create_issue_comment(
+            f"**`snake-charmer`** set project version to {self._get_setup_py_version()[1:-1]}. If you do not want to release a new version with this PR remove the release label from this PR"
+        )
 
     def create_release(self, ref: str):
         """
