@@ -24,13 +24,17 @@ class GithubAPI:
         self._setup_py = ""
         self._test_sha = ""
 
-    def setup_labels(self):
+    def setup_labels(self) -> bool:
         """
         function to setup labels for the repo to correctly
         interface with this action
+
+        Returns:
+            bool: True if a label was added, false otherwise
         """
         repo: Repository = self.get_repo()
         labels = repo.get_labels()
+        count = 0
         with open("/assets/tags.json", "r") as fp:
             data = json.load(fp)
             for element in data:
@@ -39,11 +43,13 @@ class GithubAPI:
                     if label.name == element["name"]:
                         is_defined = True
                 if not is_defined:
+                    count += 1
                     repo.create_label(
                         element["name"],
                         element["color"],
                         element["description"],
                     )
+        return count > 0
 
     def load_setup_py_file(self, pr_ref: str):
         """

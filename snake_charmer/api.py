@@ -26,7 +26,13 @@ class API:
             pull_request (PullRequest): Full PR object from
                 github API
         """
-        github_api.setup_labels()
+        did_add = github_api.setup_labels()
+        if did_add:
+            repo = github_api.get_repo()
+            pr = repo.get_pull(pull_request["number"])
+            pr.create_issue_comment(
+                f"**`snake-charmer`** added new labels to this repository"
+            )
 
     @staticmethod
     def on_pull_request_labeled(
@@ -43,6 +49,7 @@ class API:
                 github API
             label (Label): the label that was added to the pull request
         """
+        github_api.load_setup_py_file(pull_request["head"]["ref"])
         labels = ["major-release", "minor-release", "revision-release"]
         labels.remove(label["name"])
         for l in pull_request["labels"]:
@@ -81,7 +88,6 @@ class API:
 
                 repo.get_pull(pull_request["number"]).remove_from_labels(label)
 
-        github_api.load_setup_py_file(pull_request["head"]["ref"])
         github_api.update_setup_py_file(VersionType.from_label(label["name"]))
         github_api.push_setup_py_file(pull_request["number"])
 
