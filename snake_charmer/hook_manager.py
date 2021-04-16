@@ -3,7 +3,7 @@ from snake_charmer.github_api import GithubAPI
 
 class HookManager:
     @staticmethod
-    def on_release(github_api: GithubAPI):
+    def on_release(github_api: GithubAPI, token: str):
         """
         """
 
@@ -15,4 +15,4 @@ class HookManager:
         # this file should be a python script that has a main method
         # and executes its given code when run
         # !! THIS IS NOT SAFE: I AM LAZY, USE THIS HOOK AT YOUR OWN RISK
-        exec(hook)
+        exec(hook, {"g_github_token": token})

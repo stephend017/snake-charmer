@@ -1,11 +1,9 @@
 import os
 
-from github.Commit import Commit
 from snake_charmer.github_api import GithubAPI
 from snake_charmer.api import API
 from sd_utils.github_actions.action import GithubAction
 import json
-import re
 
 
 def main():
@@ -64,7 +62,11 @@ def main():
 
         if event_payload["action"] == "closed":
             if event_payload["pull_request"]["merged"]:
-                API.on_pull_request_merged(g, event_payload["pull_request"])
+                API.on_pull_request_merged(
+                    g,
+                    event_payload["pull_request"],
+                    action.inputs["github_token"],
+                )
 
 
 if __name__ == "__main__":

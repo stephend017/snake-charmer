@@ -141,7 +141,7 @@ class API:
 
     @staticmethod
     def on_pull_request_merged(
-        github_api: GithubAPI, pull_request: PullRequest
+        github_api: GithubAPI, pull_request: PullRequest, token: str
     ):
         """
         Function that runs when a pull request is merged
@@ -169,7 +169,7 @@ class API:
             if label["name"] == "alpha":
                 is_alpha = True
 
-        HookManager.on_release(github_api)
+        HookManager.on_release(github_api, token)
 
         if should_release:
             github_api.create_release(
