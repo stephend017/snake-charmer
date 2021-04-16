@@ -163,6 +163,23 @@ class GithubAPI:
         """
         return self._github.get_repo(f"{self._owner}/{self._repo}")
 
+    def has_on_release_hook(self):
+        """
+        """
+        try:
+            self.get_repo().get_contents("sc_on_release.py")
+        except Exception:
+            return False
+        return True
+
+    def get_on_release_hook(self):
+        """
+        """
+        return str(
+            self.get_repo().get_contents("sc_on_release.py").decoded_content,
+            "utf-8",
+        )
+
     def _get_latest_commit_sha(self, ref: str):
         """
         """
