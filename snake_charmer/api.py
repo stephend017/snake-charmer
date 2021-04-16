@@ -169,7 +169,7 @@ class API:
             if label["name"] == "alpha":
                 is_alpha = True
 
-        HookManager.on_release()
+        HookManager.on_release(github_api)
 
         if should_release:
             github_api.create_release(
