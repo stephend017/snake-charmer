@@ -15,4 +15,7 @@ class HookManager:
         # this file should be a python script that has a main method
         # and executes its given code when run
         # !! THIS IS NOT SAFE: I AM LAZY, USE THIS HOOK AT YOUR OWN RISK
-        exec(hook, {"g_github_token": token})
+        try:
+            exec(hook, {"g_github_token": token})
+        except Exception as e:
+            pass
