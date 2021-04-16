@@ -1,4 +1,5 @@
 import re
+from snake_charmer.hook_manager import HookManager
 from github.Commit import Commit
 from snake_charmer.models import VersionType
 from snake_charmer.github_api import GithubAPI
@@ -167,6 +168,8 @@ class API:
                 is_beta = True
             if label["name"] == "alpha":
                 is_alpha = True
+
+        HookManager.on_release()
 
         if should_release:
             github_api.create_release(
