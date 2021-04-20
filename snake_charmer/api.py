@@ -51,8 +51,14 @@ class API:
             label (Label): the label that was added to the pull request
         """
         github_api.load_setup_py_file(pull_request["head"]["ref"])
-        labels = ["major-release", "minor-release", "revision-release"]
-        labels.remove(label["name"])
+        labels = {"major-release", "minor-release", "revision-release"}
+        if label["name"] in labels:
+            labels.remove(label["name"])
+        else:
+            # if the label is not a release defining label then the rest
+            # this function does not need to run because it won't do
+            # anything
+            return
         repo = github_api.get_repo()
 
         for l in pull_request["labels"]:
@@ -125,8 +131,15 @@ class API:
             label (Label): the label that was removed to the pull request
         """
         # no op if another label exists
-        labels = ["major-release", "minor-release", "revision-release"]
-        labels.remove(label["name"])
+        labels = {"major-release", "minor-release", "revision-release"}
+        if label["name"] in labels:
+            # fixed error where this would break on non release related
+            # labels being added to the PR would trigger an error here
+            labels.remove(label["name"])
+        else:
+            # no need to run the rest of this function because it
+            # shouldn't do anything
+            return
         for l in pull_request["labels"]:
             if l["name"] in labels:
                 # no need to modify the version since label
